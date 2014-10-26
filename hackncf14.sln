@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hackncf14", "hackncf14\hackncf14.csproj", "{37D92071-CCD8-4AC0-9D30-C65940EF5575}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{AEA67F52-8B4D-4268-9F95-31A42E9A703C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,16 @@ Global
 		{37D92071-CCD8-4AC0-9D30-C65940EF5575}.Release|x86.ActiveCfg = Release|x86
 		{37D92071-CCD8-4AC0-9D30-C65940EF5575}.Release|x86.Build.0 = Release|x86
 		{37D92071-CCD8-4AC0-9D30-C65940EF5575}.Release|x86.Deploy.0 = Release|x86
+		{AEA67F52-8B4D-4268-9F95-31A42E9A703C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEA67F52-8B4D-4268-9F95-31A42E9A703C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEA67F52-8B4D-4268-9F95-31A42E9A703C}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{AEA67F52-8B4D-4268-9F95-31A42E9A703C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AEA67F52-8B4D-4268-9F95-31A42E9A703C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AEA67F52-8B4D-4268-9F95-31A42E9A703C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA67F52-8B4D-4268-9F95-31A42E9A703C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEA67F52-8B4D-4268-9F95-31A42E9A703C}.Release|ARM.ActiveCfg = Release|Any CPU
+		{AEA67F52-8B4D-4268-9F95-31A42E9A703C}.Release|x64.ActiveCfg = Release|Any CPU
+		{AEA67F52-8B4D-4268-9F95-31A42E9A703C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
