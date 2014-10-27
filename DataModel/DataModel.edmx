@@ -1,0 +1,528 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="categories">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="name" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="customers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="name" Type="text" Nullable="false" />
+          <Property Name="email" Type="text" />
+        </EntityType>
+        <EntityType Name="inventory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="location_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="units" Type="bigint" Nullable="false" />
+          <Property Name="price_per_unit" Type="money" Nullable="false" />
+          <Property Name="cost_per_unit" Type="money" Nullable="false" />
+          <Property Name="item_id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="items">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="sku" Type="bigint" Nullable="false" />
+          <Property Name="name" Type="text" />
+          <Property Name="image" Type="text" />
+          <Property Name="is_recipe" Type="bit" Nullable="false" />
+          <Property Name="category_id" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="locations">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="image" Type="text" />
+          <Property Name="address" Type="text" />
+        </EntityType>
+        <EntityType Name="recipes">
+          <Key>
+            <PropertyRef Name="recipe_item_id" />
+          </Key>
+          <Property Name="recipe_item_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="item_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="units" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="transactions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="inventory_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="item_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="location_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="price" Type="money" Nullable="false" />
+          <Property Name="cost" Type="money" Nullable="false" />
+          <Property Name="time" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="vendors">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="image" Type="nvarchar" MaxLength="15" />
+        </EntityType>
+        <Association Name="FK_inventory_0">
+          <End Role="items" Type="Self.items" Multiplicity="1" />
+          <End Role="inventory" Type="Self.inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="inventory">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_items_0">
+          <End Role="categories" Type="Self.categories" Multiplicity="0..1" />
+          <End Role="items" Type="Self.items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categories">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="items">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipe_0">
+          <End Role="items" Type="Self.items" Multiplicity="1" />
+          <End Role="recipes" Type="Self.recipes" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="recipes">
+              <PropertyRef Name="recipe_item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipe_1">
+          <End Role="items" Type="Self.items" Multiplicity="1" />
+          <End Role="recipes" Type="Self.recipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="recipes">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_transactions_0">
+          <End Role="items" Type="Self.items" Multiplicity="1" />
+          <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_transactions_1">
+          <End Role="locations" Type="Self.locations" Multiplicity="1" />
+          <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="locations">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="location_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_transactions_2">
+          <End Role="inventory" Type="Self.inventory" Multiplicity="1" />
+          <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inventory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="inventory_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DataModelStoreContainer">
+          <EntitySet Name="categories" EntityType="Self.categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="customers" EntityType="Self.customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="inventory" EntityType="Self.inventory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="items" EntityType="Self.items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="locations" EntityType="Self.locations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="recipes" EntityType="Self.recipes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transactions" EntityType="Self.transactions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vendors" EntityType="Self.vendors" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_inventory_0" Association="Self.FK_inventory_0">
+            <End Role="items" EntitySet="items" />
+            <End Role="inventory" EntitySet="inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_items_0" Association="Self.FK_items_0">
+            <End Role="categories" EntitySet="categories" />
+            <End Role="items" EntitySet="items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipe_0" Association="Self.FK_Recipe_0">
+            <End Role="items" EntitySet="items" />
+            <End Role="recipes" EntitySet="recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipe_1" Association="Self.FK_Recipe_1">
+            <End Role="items" EntitySet="items" />
+            <End Role="recipes" EntitySet="recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_transactions_0" Association="Self.FK_transactions_0">
+            <End Role="items" EntitySet="items" />
+            <End Role="transactions" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_transactions_1" Association="Self.FK_transactions_1">
+            <End Role="locations" EntitySet="locations" />
+            <End Role="transactions" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_transactions_2" Association="Self.FK_transactions_2">
+            <End Role="inventory" EntitySet="inventory" />
+            <End Role="transactions" EntitySet="transactions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="items" Relationship="Self.FK_items_0" FromRole="categories" ToRole="items" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Inventory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="location_id" Type="Guid" Nullable="false" />
+          <Property Name="units" Type="Int64" Nullable="false" />
+          <Property Name="price_per_unit" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="cost_per_unit" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="item_id" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="item" Relationship="Self.FK_inventory_0" FromRole="inventory" ToRole="items" />
+          <NavigationProperty Name="transactions" Relationship="Self.FK_transactions_2" FromRole="inventory" ToRole="transactions" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="sku" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="is_recipe" Type="Boolean" Nullable="false" />
+          <Property Name="category_id" Type="Guid" />
+          <NavigationProperty Name="category" Relationship="Self.FK_items_0" FromRole="items" ToRole="categories" />
+          <NavigationProperty Name="inventory" Relationship="Self.FK_inventory_0" FromRole="items" ToRole="inventory" />
+          <NavigationProperty Name="transactions" Relationship="Self.FK_transactions_0" FromRole="items" ToRole="transactions" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="transactions" Relationship="Self.FK_transactions_1" FromRole="locations" ToRole="transactions" />
+        </EntityType>
+        <EntityType Name="Recipe">
+          <Key>
+            <PropertyRef Name="recipe_item_id" />
+          </Key>
+          <Property Name="recipe_item_id" Type="Guid" Nullable="false" />
+          <Property Name="item_id" Type="Guid" Nullable="false" />
+          <Property Name="units" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="id" Relationship="Self.FK_Recipe_0" FromRole="recipes" ToRole="items" />
+          <NavigationProperty Name="item" Relationship="Self.FK_Recipe_1" FromRole="recipes" ToRole="items" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="inventory_id" Type="Guid" Nullable="false" />
+          <Property Name="item_id" Type="Guid" Nullable="false" />
+          <Property Name="location_id" Type="Guid" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="cost" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="time" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="inventory" Relationship="Self.FK_transactions_2" FromRole="transactions" ToRole="inventory" />
+          <NavigationProperty Name="item" Relationship="Self.FK_transactions_0" FromRole="transactions" ToRole="items" />
+          <NavigationProperty Name="location" Relationship="Self.FK_transactions_1" FromRole="transactions" ToRole="locations" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="image" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_items_0">
+          <End Role="categories" Type="DataModel.Category" Multiplicity="0..1" />
+          <End Role="items" Type="DataModel.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categories">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="items">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_inventory_0">
+          <End Role="items" Type="DataModel.Item" Multiplicity="1" />
+          <End Role="inventory" Type="DataModel.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="inventory">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_transactions_2">
+          <End Role="inventory" Type="DataModel.Inventory" Multiplicity="1" />
+          <End Role="transactions" Type="DataModel.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inventory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="inventory_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipe_0">
+          <End Role="items" Type="DataModel.Item" Multiplicity="1" />
+          <End Role="recipes" Type="DataModel.Recipe" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="recipes">
+              <PropertyRef Name="recipe_item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipe_1">
+          <End Role="items" Type="DataModel.Item" Multiplicity="1" />
+          <End Role="recipes" Type="DataModel.Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="recipes">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_transactions_0">
+          <End Role="items" Type="DataModel.Item" Multiplicity="1" />
+          <End Role="transactions" Type="DataModel.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="items">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_transactions_1">
+          <End Role="locations" Type="DataModel.Location" Multiplicity="1" />
+          <End Role="transactions" Type="DataModel.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="locations">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="location_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="hackncEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories1" EntityType="DataModel.Category" />
+          <EntitySet Name="Customers1" EntityType="DataModel.Customer" />
+          <EntitySet Name="Inventories1" EntityType="DataModel.Inventory" />
+          <EntitySet Name="Items1" EntityType="DataModel.Item" />
+          <EntitySet Name="Locations1" EntityType="DataModel.Location" />
+          <EntitySet Name="Recipes1" EntityType="DataModel.Recipe" />
+          <EntitySet Name="Transactions1" EntityType="DataModel.Transaction" />
+          <EntitySet Name="Vendors1" EntityType="DataModel.Vendor" />
+          <AssociationSet Name="FK_items_0" Association="Self.FK_items_0">
+            <End Role="categories" EntitySet="Categories1" />
+            <End Role="items" EntitySet="Items1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_inventory_0" Association="Self.FK_inventory_0">
+            <End Role="items" EntitySet="Items1" />
+            <End Role="inventory" EntitySet="Inventories1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_transactions_2" Association="Self.FK_transactions_2">
+            <End Role="inventory" EntitySet="Inventories1" />
+            <End Role="transactions" EntitySet="Transactions1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipe_0" Association="Self.FK_Recipe_0">
+            <End Role="items" EntitySet="Items1" />
+            <End Role="recipes" EntitySet="Recipes1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipe_1" Association="Self.FK_Recipe_1">
+            <End Role="items" EntitySet="Items1" />
+            <End Role="recipes" EntitySet="Recipes1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_transactions_0" Association="Self.FK_transactions_0">
+            <End Role="items" EntitySet="Items1" />
+            <End Role="transactions" EntitySet="Transactions1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_transactions_1" Association="Self.FK_transactions_1">
+            <End Role="locations" EntitySet="Locations1" />
+            <End Role="transactions" EntitySet="Transactions1" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DataModelStoreContainer" CdmEntityContainer="hackncEntities">
+          <EntitySetMapping Name="Categories1">
+            <EntityTypeMapping TypeName="DataModel.Category">
+              <MappingFragment StoreEntitySet="categories">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers1">
+            <EntityTypeMapping TypeName="DataModel.Customer">
+              <MappingFragment StoreEntitySet="customers">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inventories1">
+            <EntityTypeMapping TypeName="DataModel.Inventory">
+              <MappingFragment StoreEntitySet="inventory">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="location_id" ColumnName="location_id" />
+                <ScalarProperty Name="units" ColumnName="units" />
+                <ScalarProperty Name="price_per_unit" ColumnName="price_per_unit" />
+                <ScalarProperty Name="cost_per_unit" ColumnName="cost_per_unit" />
+                <ScalarProperty Name="item_id" ColumnName="item_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items1">
+            <EntityTypeMapping TypeName="DataModel.Item">
+              <MappingFragment StoreEntitySet="items">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="sku" ColumnName="sku" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="is_recipe" ColumnName="is_recipe" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations1">
+            <EntityTypeMapping TypeName="DataModel.Location">
+              <MappingFragment StoreEntitySet="locations">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="address" ColumnName="address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recipes1">
+            <EntityTypeMapping TypeName="DataModel.Recipe">
+              <MappingFragment StoreEntitySet="recipes">
+                <ScalarProperty Name="recipe_item_id" ColumnName="recipe_item_id" />
+                <ScalarProperty Name="item_id" ColumnName="item_id" />
+                <ScalarProperty Name="units" ColumnName="units" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions1">
+            <EntityTypeMapping TypeName="DataModel.Transaction">
+              <MappingFragment StoreEntitySet="transactions">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="inventory_id" ColumnName="inventory_id" />
+                <ScalarProperty Name="item_id" ColumnName="item_id" />
+                <ScalarProperty Name="location_id" ColumnName="location_id" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="time" ColumnName="time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendors1">
+            <EntityTypeMapping TypeName="DataModel.Vendor">
+              <MappingFragment StoreEntitySet="vendors">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="image" ColumnName="image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

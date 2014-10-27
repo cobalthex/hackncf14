@@ -26,6 +26,11 @@ namespace hackncf14
     /// </summary>
     sealed partial class App : Application
     {
+        // http://go.microsoft.com/fwlink/?LinkId=290986&clcid=0x409
+        public static Microsoft.WindowsAzure.MobileServices.MobileServiceClient hackncf14Client = new Microsoft.WindowsAzure.MobileServices.MobileServiceClient(
+        "https://hackncf14.azure-mobile.net/",
+        "JTknHnmFiaARMcVLryJNigMuKePBwa44");
+
         /// <summary>
         /// Initializes the singleton Application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -43,7 +48,7 @@ namespace hackncf14
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
-
+            
 #if DEBUG
             // Show graphics profiling information while debugging.
             if (System.Diagnostics.Debugger.IsAttached)
